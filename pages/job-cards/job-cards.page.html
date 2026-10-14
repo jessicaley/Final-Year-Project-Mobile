@@ -1,0 +1,165 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>My Job Cards</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Loading job cards...</p>
+  </div>
+
+  <!-- No Job Cards State -->
+  <div *ngIf="!isLoading && getProcessingJobCards().length === 0" class="ion-text-center ion-padding">
+    <ion-icon name="document-outline" size="large" color="medium"></ion-icon>
+    <h3>No Active Job Cards</h3>
+    <p>You don't have any job cards currently in progress.</p>
+  </div>
+
+  <!-- Job Cards List -->
+  <div *ngIf="!isLoading && getProcessingJobCards().length > 0" class="job-cards-container">
+
+    <!-- Summary Header -->
+    <div class="summary-header">
+      <h2>Active Job Cards ({{ getProcessingJobCards().length }})</h2>
+      <div class="status-summary">
+        <ion-badge color="primary" class="summary-badge">
+          {{ getProcessingJobCards().length }} In Progress
+        </ion-badge>
+      </div>
+    </div>
+
+    <!-- Job Cards - Only show status_id = 1 -->
+    <ion-card *ngFor="let job of getProcessingJobCards(); let i = index" class="job-card" [class]="'job-card-' + (i % 3)">
+
+      <!-- Card Header with colored accent -->
+      <div class="card-accent" [class]="'accent-' + (i % 3)"></div>
+
+      <ion-card-header class="job-card-header">
+        <div class="header-top">
+          <div class="job-number">
+            <span class="label">Job #</span>
+            <span class="value">{{ job.job_card_id }}</span>
+          </div>
+          <ion-badge color="primary" class="status-badge">
+            In Progress
+          </ion-badge>
+        </div>
+        <ion-card-subtitle class="quotation-number">
+          <ion-icon name="document-text-outline"></ion-icon>
+          Quotation: {{ getQuotationNumber(job) }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <!-- Card Content -->
+      <ion-card-content class="job-card-content">
+
+        <!-- Job Details -->
+        <div class="job-details">
+          <h2 class="job-title">{{ getJobRequestTitle(job) }}</h2>
+          <p class="job-description">{{ getJobRequestDescription(job) }}</p>
+          <div class="job-meta">
+            <span class="quantity">
+              <ion-icon name="cube-outline"></ion-icon>
+              Quantity: {{ getJobRequestQuantity(job) }}
+            </span>
+            <span class="created-date" *ngIf="job.created_at">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ formatDate(job.created_at) }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Materials Section -->
+        <div class="section">
+          <h3 class="section-title">
+            <ion-icon name="construct-outline"></ion-icon>
+            Materials ({{ getJobCardMaterials(job).length }})
+          </h3>
+          <div class="materials-list">
+            <ion-chip *ngFor="let material of getJobCardMaterials(job)" color="primary" outline>
+              <ion-label>{{ material.materials?.material_name || 'Unknown Material' }}</ion-label>
+            </ion-chip>
+            <div *ngIf="getJobCardMaterials(job).length === 0" class="empty-state">
+              <ion-icon name="alert-circle-outline" color="medium"></ion-icon>
+              <span>No materials assigned</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artisans Section -->
+        <div class="section">
+          <h3 class="section-title">
+            <ion-icon name="people-outline"></ion-icon>
+            Artisans ({{ getJobCardArtisans(job).length }})
+          </h3>
+          <div class="artisans-list">
+            <div *ngFor="let artisan of getJobCardArtisans(job)" class="artisan-item">
+              <ion-avatar class="artisan-avatar">
+                <img [src]="artisan.employees?.users?.image || 'https://ui-avatars.com/api/?background=17726d&color=fff&name=' + artisan.employees?.users?.name" />
+              </ion-avatar>
+              <div class="artisan-info">
+                <strong>{{ artisan.employees?.users?.name }} {{ artisan.employees?.users?.surname }}</strong>
+                <small>{{ artisan.employees?.job_scope || 'Artisan' }}</small>
+              </div>
+            </div>
+            <div *ngIf="getJobCardArtisans(job).length === 0" class="empty-state">
+              <ion-icon name="alert-circle-outline" color="medium"></ion-icon>
+              <span>No artisans assigned</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h3 class="section-title">
+            <ion-icon name="camera-outline"></ion-icon>
+            Progress Images
+          </h3>
+
+          <!-- Current Progress Image -->
+          <div *ngIf="getProgressUrl(job)" class="current-progress">
+            <h4>Current Progress</h4>
+            <div class="image-container">
+              <img [src]="getProgressUrl(job)" class="progress-image" (click)="viewProgressImage(job)" />
+              <div class="image-overlay">
+                <ion-badge color="warning">Click to view full size</ion-badge>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload Progress Image -->
+          <div class="upload-section">
+            <ion-item class="file-input-item">
+              <ion-label position="stacked">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                {{ getProgressUrl(job) ? 'Replace Progress Image' : 'Upload Progress Image' }}
+              </ion-label>
+              <input #fileInput type="file" (change)="onFileSelected($event, job.job_card_id)" accept="image/*" hidden />
+              <ion-button fill="outline" (click)="fileInput.click()" class="file-button">
+                <ion-icon name="folder-open-outline" slot="start"></ion-icon>
+                Choose File
+              </ion-button>
+            </ion-item>
+
+            <ion-button expand="block" color="primary" (click)="uploadProgress(job.job_card_id)"
+                        [disabled]="!selectedFiles[job.job_card_id]" class="upload-button">
+              <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+              {{ getProgressUrl(job) ? 'Replace Image' : 'Upload Image' }}
+            </ion-button>
+
+            <small *ngIf="selectedFiles[job.job_card_id]" class="file-selected">
+              Selected: {{ selectedFiles[job.job_card_id]?.name }}
+            </small>
+
+            <div *ngIf="getProgressUrl(job)" class="replace-notice">
+              <ion-icon name="information-circle-outline" color="warning"></ion-icon>
+              <small>Uploading a new image will replace the current one</small>
+            </div>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

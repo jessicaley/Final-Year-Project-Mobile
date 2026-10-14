@@ -1,0 +1,41 @@
+<!-- clock-code.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ type === 'clock_in' ? 'Clock In' : 'Clock Out' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="code-entry-container">
+    <h2>Enter 6-Digit Code</h2>
+    <p class="instructions">Enter the code provided by your employer</p>
+
+    <div class="code-input">
+      <ion-input
+        type="number"
+        [(ngModel)]="clockCode"
+        placeholder="------"
+        maxlength="6"
+        autofocus
+        (ionInput)="handleInput($event)"
+      ></ion-input>
+    </div>
+
+    <div class="action-buttons">
+      <ion-button
+        expand="block"
+        color="primary"
+        (click)="submit()"
+        [disabled]="clockCode.length !== 6 || isSubmitting"
+      >
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Submit
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

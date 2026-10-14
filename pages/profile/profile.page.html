@@ -1,0 +1,161 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Employee Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="profile-content">
+  <!-- Loading Skeleton -->
+  <div *ngIf="loading" class="skeleton-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-skeleton-text [animated]="true" style="width: 100px; height: 100px; border-radius: 50%; margin: 0 auto;"></ion-skeleton-text>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list lines="full">
+          <ion-item *ngFor="let i of [1,2,3,4]">
+            <ion-label>
+              <ion-skeleton-text [animated]="true" style="width: 30%"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 80%"></ion-skeleton-text>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Profile Content -->
+  <div *ngIf="!loading">
+    <ion-card class="profile-card">
+      <ion-card-header class="profile-header">
+        <!-- Avatar Upload Section -->
+      <div class="avatar-section">
+        <div class="avatar-upload-container">
+          <img
+            [src]="imageUrl || currentUser?.image || imgSrc"
+            alt="Avatar"
+            class="avatar"
+            (click)="triggerFileInput()">
+
+          <ion-spinner *ngIf="uploading" name="crescent" class="upload-spinner"></ion-spinner>
+
+          <input
+            #fileInput
+            type="file"
+            accept="image/png,image/jpeg,image/gif,image/bmp"
+            (change)="onAvatarPicked($event)"
+            style="display: none;">
+
+          <!-- Camera / Upload -->
+          <ion-button fill="clear" class="change-avatar-btn" (click)="triggerFileInput()">
+            <ion-icon name="camera" slot="icon-only"></ion-icon>
+          </ion-button>
+
+          <!-- 🗑 Remove Avatar -->
+          <ion-button *ngIf="currentUser?.image" fill="clear" color="danger" class="remove-avatar-btn" (click)="removeAvatar()">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="form" novalidate class="profile-form">
+          <ion-list lines="full">
+            <!-- Email Field -->
+            <ion-item class="form-item" [class.invalid]="form.get('email_address')?.invalid && form.get('email_address')?.touched">
+              <ion-label position="stacked" class="form-label">
+                Email Address <span class="required">*</span>
+              </ion-label>
+              <ion-input
+                formControlName="email_address"
+                type="email"
+                placeholder="Enter your email"
+                class="form-input"
+                [class.error]="form.get('email_address')?.invalid && form.get('email_address')?.touched">
+              </ion-input>
+            </ion-item>
+            <div class="validation-errors" *ngIf="form.get('email_address')?.touched && form.get('email_address')?.invalid">
+              <ion-note color="danger" *ngIf="form.get('email_address')?.errors?.['required']">
+                Email address is required
+              </ion-note>
+              <ion-note color="danger" *ngIf="form.get('email_address')?.errors?.['email']">
+                Please enter a valid email address
+              </ion-note>
+            </div>
+
+
+            <!-- Emergency Contact Field -->
+            <ion-item class="form-item" [class.invalid]="form.get('emergency_contact')?.invalid && form.get('emergency_contact')?.touched">
+              <ion-label position="stacked" class="form-label">
+                Emergency Contact <span class="required">*</span>
+              </ion-label>
+              <ion-input
+                formControlName="emergency_contact"
+                type="text"
+                placeholder="Name and phone number"
+                class="form-input"
+                [class.error]="form.get('emergency_contact')?.invalid && form.get('emergency_contact')?.touched">
+              </ion-input>
+            </ion-item>
+            <div class="validation-errors" *ngIf="form.get('emergency_contact')?.touched && form.get('emergency_contact')?.invalid">
+              <ion-note color="danger" *ngIf="form.get('emergency_contact')?.errors?.['required']">
+                Emergency contact information is required
+              </ion-note>
+              <ion-note color="danger" *ngIf="form.get('emergency_contact')?.errors?.['minlength']">
+                Emergency contact should be at least 10 characters
+              </ion-note>
+            </div>
+
+            <!-- Address Field -->
+            <ion-item class="form-item" [class.invalid]="form.get('address')?.invalid && form.get('address')?.touched">
+              <ion-label position="stacked" class="form-label">
+                Address <span class="required">*</span>
+              </ion-label>
+              <ion-textarea
+                formControlName="address"
+                placeholder="Enter your complete address"
+                rows="3"
+                class="form-textarea"
+                [class.error]="form.get('address')?.invalid && form.get('address')?.touched">
+              </ion-textarea>
+            </ion-item>
+            <div class="validation-errors" *ngIf="form.get('address')?.touched && form.get('address')?.invalid">
+              <ion-note color="danger" *ngIf="form.get('address')?.errors?.['required']">
+                Address is required
+              </ion-note>
+              <ion-note color="danger" *ngIf="form.get('address')?.errors?.['minlength']">
+                Address should be at least 10 characters
+              </ion-note>
+            </div>
+          </ion-list>
+
+          <div class="action-buttons">
+            <ion-button
+              expand="block"
+              (click)="save()"
+              [disabled]="saving || uploading || form.invalid"
+              class="save-btn">
+              <ion-spinner *ngIf="saving" name="crescent"></ion-spinner>
+              <ion-icon *ngIf="!saving" name="save-outline" slot="start"></ion-icon>
+              {{ saving ? 'Saving...' : 'Save Changes' }}
+            </ion-button>
+
+            <ion-button
+              expand="block"
+              fill="outline"
+              color="medium"
+              routerLink="/">
+              Cancel
+            </ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

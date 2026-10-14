@@ -1,0 +1,12 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 8px 0;
+}
+
+.logo-img {
+  height: 36px; /* Adjust based on your logo's aspect ratio */
+  width: auto;
+  max-width: 180px; /* Prevents logo from being too wide */
+}

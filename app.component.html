@@ -1,0 +1,92 @@
+<ion-app *ngIf="isLoggedIn$ | async">
+  <ion-header>
+    <ion-toolbar>
+      <div class="top-bar">
+        <!-- Logo on the left -->
+        <div class="logo-container">
+          <img src="assets/images/logo.png" alt="Vault Vision" class="logo-img">
+          <span class="logo-text">Vault Vision</span>
+        </div>
+
+        <!-- Menu toggle + profile grouped on the right -->
+        <div class="right-group">
+          <div class="menu-toggle" (click)="toggleMenu()">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+          </div>
+
+          <div class="profile-button" routerLink="/profile">
+            <ion-avatar>
+              <ng-container *ngIf="(user$ | async)?.user_metadata?.avatar_url; else defaultAvatar">
+                <img [src]="(user$ | async)?.user_metadata?.avatar_url" alt="Profile" />
+              </ng-container>
+              <ng-template #defaultAvatar>
+                <ng-container *ngIf="(user$ | async)?.email; else iconFallback">
+                  {{ (user$ | async)?.email?.charAt(0).toUpperCase() }}
+                </ng-container>
+                <ng-template #iconFallback>
+                  <ion-icon name="person-circle"></ion-icon>
+                </ng-template>
+              </ng-template>
+            </ion-avatar>
+          </div>
+        </div>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-menu contentId="main-content" menuId="main-menu">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item button routerLink="/home" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="home" slot="start"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-item>
+
+        <ion-item button routerLink="/time-logs" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="time" slot="start"></ion-icon>
+          <ion-label>Time Logs</ion-label>
+        </ion-item>
+
+        <ion-item button routerLink="/job-cards" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="briefcase" slot="start"></ion-icon>
+          <ion-label>Job Cards</ion-label>
+        </ion-item>
+
+        <ion-item button routerLink="/warnings" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="alert-circle" slot="start"></ion-icon>
+          <ion-label>Warnings</ion-label>
+        </ion-item>
+
+
+        <ion-item button routerLink="/payslips" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="person-circle" slot="start"></ion-icon>
+          <ion-label>Payslips</ion-label>
+        </ion-item>
+
+        <ion-item button routerLink="/help" routerDirection="root" (click)="closeMenu()">
+          <ion-icon name="help-outline" slot="start"></ion-icon>
+          <ion-label>Help</ion-label>
+        </ion-item>
+
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out" slot="start"></ion-icon>
+          <ion-label>Logout</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>
+
+<!-- Show login/landing page when not logged in -->
+<ion-app *ngIf="!(isLoggedIn$ | async)">
+  <ion-router-outlet></ion-router-outlet>
+</ion-app>

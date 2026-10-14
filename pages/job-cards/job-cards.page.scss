@@ -1,0 +1,382 @@
+.job-cards-container {
+  max-width: 100%;
+}
+
+.summary-header {
+  background: var(--ion-color-light);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+
+  h2 {
+    margin: 0 0 12px 0;
+    color: var(--ion-color-dark);
+    font-size: 1.4em;
+  }
+
+  .status-summary {
+    .summary-badge {
+      font-size: 14px;
+      padding: 8px 16px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Keep all other SCSS the same...
+
+.job-card {
+  margin: 24px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--ion-color-light-shade);
+
+  // Different background colors for alternating cards
+  &.job-card-0 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  }
+
+  &.job-card-1 {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  }
+
+  &.job-card-2 {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%);
+  }
+
+  .card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+
+    &.accent-0 {
+      background: linear-gradient(to bottom, var(--ion-color-primary), var(--ion-color-secondary));
+    }
+
+    &.accent-1 {
+      background: linear-gradient(to bottom, var(--ion-color-success), var(--ion-color-warning));
+    }
+
+    &.accent-2 {
+      background: linear-gradient(to bottom, var(--ion-color-danger), var(--ion-color-tertiary));
+    }
+  }
+
+  .job-card-header {
+    padding: 20px 20px 20px 26px; // Extra left padding for accent
+    background: transparent;
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+
+      .job-number {
+        .label {
+          font-size: 12px;
+          color: var(--ion-color-medium);
+          display: block;
+          font-weight: 500;
+        }
+        .value {
+          font-size: 24px;
+          font-weight: bold;
+          color: var(--ion-color-primary);
+        }
+      }
+
+      .status-badge {
+        font-size: 12px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+    }
+
+    .quotation-number {
+      font-size: 14px;
+      color: var(--ion-color-medium);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .job-card-content {
+    padding: 0;
+
+    .job-details {
+      padding: 20px;
+      border-bottom: 2px solid var(--ion-color-light-shade);
+      background: rgba(255, 255, 255, 0.5);
+
+      .job-title {
+        margin: 0 0 12px 0;
+        font-size: 1.3em;
+        font-weight: 700;
+        color: var(--ion-color-dark);
+        line-height: 1.3;
+      }
+
+      .job-description {
+        margin: 0 0 16px 0;
+        color: var(--ion-color-medium);
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+
+        .quantity, .created-date {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 13px;
+          color: var(--ion-color-primary);
+          font-weight: 500;
+        }
+      }
+    }
+
+    .section {
+      padding: 20px;
+      border-bottom: 1px solid var(--ion-color-light-shade);
+      background: white;
+
+      &:last-child {
+        border-bottom: none;
+        border-radius: 0 0 16px 16px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 16px 0;
+        font-size: 1.1em;
+        color: var(--ion-color-dark);
+        font-weight: 600;
+      }
+
+      .materials-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        ion-chip {
+          margin: 0;
+        }
+      }
+
+      .artisans-list {
+        .artisan-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px;
+          margin: 8px 0;
+          background: var(--ion-color-light);
+          border-radius: 8px;
+          transition: transform 0.2s ease;
+
+          &:active {
+            transform: scale(0.98);
+          }
+
+          .artisan-avatar {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--ion-color-primary);
+          }
+
+          .artisan-info {
+            flex: 1;
+
+            strong {
+              display: block;
+              margin-bottom: 2px;
+            }
+
+            small {
+              color: var(--ion-color-medium);
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .empty-state {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 16px;
+        color: var(--ion-color-medium);
+        text-align: center;
+        justify-content: center;
+        background: var(--ion-color-light);
+        border-radius: 8px;
+        font-style: italic;
+      }
+
+      .current-progress {
+        margin-bottom: 20px;
+
+        h4 {
+          margin: 0 0 12px 0;
+          font-size: 14px;
+          color: var(--ion-color-medium);
+          font-weight: 500;
+        }
+
+        .image-container {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+
+          .progress-image {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 12px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid var(--ion-color-light-shade);
+            transition: transform 0.2s ease;
+
+            &:active {
+              transform: scale(0.95);
+            }
+          }
+
+          .image-overlay {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+          }
+        }
+      }
+
+      .upload-section {
+        .file-input-item {
+          --padding-start: 0;
+          --inner-padding-end: 0;
+          --background: transparent;
+        }
+
+        .file-button {
+          margin: 8px 0;
+          width: 100%;
+        }
+
+        .upload-button {
+          margin: 8px 0;
+        }
+
+        .file-selected {
+          display: block;
+          margin-top: 8px;
+          color: var(--ion-color-success);
+          font-style: italic;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .job-card {
+    margin: 16px 0;
+
+    .job-card-header {
+      padding: 16px 16px 16px 22px;
+
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+
+        .status-badge {
+          align-self: flex-start;
+        }
+      }
+    }
+
+    .job-card-content {
+      .job-details {
+        padding: 16px;
+
+        .job-meta {
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+
+      .section {
+        padding: 16px;
+      }
+    }
+  }
+
+  .summary-header {
+    padding: 12px;
+
+    .status-summary {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .materials-list {
+    justify-content: center;
+  }
+}
+
+/* Animation for new cards */
+.job-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .job-card {
+    background: var(--ion-color-dark);
+
+    &.job-card-0 {
+      background: linear-gradient(135deg, var(--ion-color-dark) 0%, #1a1a1a 100%);
+    }
+
+    &.job-card-1 {
+      background: linear-gradient(135deg, var(--ion-color-dark) 0%, #1a1f2a 100%);
+    }
+
+    &.job-card-2 {
+      background: linear-gradient(135deg, var(--ion-color-dark) 0%, #1a2a1f 100%);
+    }
+
+    .job-card-content .section {
+      background: var(--ion-color-dark-tint);
+    }
+  }
+}

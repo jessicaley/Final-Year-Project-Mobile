@@ -1,0 +1,19 @@
+ion-label, ion-text-wrap, p {
+        padding: 8px 12px;
+        font-weight: 500;
+        margin-right: 8px;
+        color: #17726d;
+    }
+
+    ion-list {
+  background: var(--ion-color-light);
+  border-radius: 12px;
+  margin: 16px;
+  padding: 8px 0;
+  border: #17726d;
+  border-bottom: #17726d;
+}
+
+ion-button{
+    border-bottom: 1px solid var(--ion-color-light-shade);
+}

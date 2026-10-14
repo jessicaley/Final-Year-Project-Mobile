@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Help</ion-title>
+    <ion-buttons slot="end">
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Need Assistance?</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      You can download our help guide to get started or troubleshoot common issues.
+      <ion-button
+        expand="block"
+        style="--background: #17726d; --color: #fff; margin-top: 15px;"
+        (click)="downloadPdf()">
+        Download Help PDF
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

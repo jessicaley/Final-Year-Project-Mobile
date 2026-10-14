@@ -1,0 +1,196 @@
+.profile-content {
+  --background: #f5f5f5;
+  padding: 10px;
+}
+
+.profile-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 0;
+}
+
+.profile-header {
+  text-align: center;
+  padding: 20px 20px 10px;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.avatar-upload-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--ion-color-primary);
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .upload-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+}
+
+.change-avatar-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.user-info {
+  margin-top: 10px;
+
+  h2 {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+
+  p {
+    margin: 0;
+    color: var(--ion-color-medium);
+    font-size: 14px;
+
+    &:last-child {
+      margin-top: 3px;
+    }
+  }
+}
+
+.form-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--ion-color-dark);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.required {
+  color: var(--ion-color-danger);
+}
+
+.form-input, .form-textarea {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 8px;
+  background: #fff;
+  margin-top: 5px;
+}
+
+.form-input.error, .form-textarea.error {
+  border-color: var(--ion-color-danger);
+}
+
+.validation-errors {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.validation-errors ion-note {
+  font-size: 12px;
+  display: block;
+  margin-top: 3px;
+}
+
+.action-buttons {
+  margin-top: 25px;
+}
+
+.save-btn {
+  margin-bottom: 12px;
+  --border-radius: 8px;
+  height: 46px;
+}
+
+.skeleton-container {
+  padding: 15px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .profile-content {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.avatar-upload-container {
+  position: relative;
+  display: inline-block;
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--ion-color-medium);
+  }
+
+  .change-avatar-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    --padding-start: 6px;
+    --padding-end: 6px;
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    --background: var(--ion-color-primary);
+    --color: white;
+    border-radius: 50%;
+  }
+
+  .remove-avatar-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    --padding-start: 6px;
+    --padding-end: 6px;
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    --background: var(--ion-color-danger);
+    --color: white;
+    border-radius: 50%;
+  }
+
+  .upload-spinner {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+  }
+}
+

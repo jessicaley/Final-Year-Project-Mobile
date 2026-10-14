@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Warnings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Warnings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading warnings...</p>
+  </div>
+
+  <!-- Warnings List -->
+  <ng-container *ngIf="!isLoading">
+    <ion-list>
+      @for (warning of filteredWarnings; track warning.employee_warning_id) {
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <h2>Warning #{{ warning.employee_warning_id }}</h2>
+
+            @if (warning.employee_warning_type_id === 1) {
+              <p><strong>Type:</strong> Verbal Warning</p>
+            } @else if (warning.employee_warning_type_id === 2) {
+              <p><strong>Type:</strong> Written Warning</p>
+            } @else {
+              <p><strong>Type:</strong> Unknown</p>
+            }
+
+            <p><strong>Reason:</strong> {{ warning.reason }}</p>
+
+            @if(warning.is_disputed === false){
+              <p><strong>Disputed:</strong> No</p>
+            } @else if(warning.is_disputed === true) {
+              <p><strong>Disputed:</strong> Yes</p>
+            }
+          </ion-label>
+
+          @if(warning.is_disputed === false){
+            <ion-button slot="end" fill="outline" size="small" (click)="updateWarning(warning)">
+              Dispute
+            </ion-button>
+          }
+        </ion-item>
+      } @empty {
+        <ion-item>
+          <ion-label class="ion-text-center">
+            <h3>No warnings found</h3>
+            <p>You have no warnings at this time.</p>
+          </ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  </ng-container>
+</ion-content>

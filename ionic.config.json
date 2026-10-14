@@ -1,0 +1,7 @@
+{
+  "name": "vault-vision-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

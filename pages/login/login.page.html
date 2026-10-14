@@ -1,0 +1,76 @@
+<ion-content class="login-background" fullscreen>
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Logo -->
+      <img alt="logo" src="assets/images/logo.png" height="120" class="logo" />
+
+      <!-- Phone Form -->
+      <form *ngIf="step === 'phone'" [formGroup]="phoneForm" (ngSubmit)="sendCode()">
+        <p class="welcome-text">Welcome Back</p>
+
+        <ion-item lines="none" class="input-item">
+          <ion-input
+            formControlName="phone"
+            inputmode="tel"
+            placeholder="082 123 4567"
+            autocomplete="tel">
+          </ion-input>
+        </ion-item>
+        <ion-note class="input-note">Enter your phone number starting with 0</ion-note>
+
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="loading || phoneForm.invalid"
+          class="btn-gradient">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Send Access Code</span>
+        </ion-button>
+
+        <div class="create-account">
+          <a routerLink="/register">Create Account</a>
+        </div>
+      </form>
+
+      <!-- OTP Form -->
+      <form *ngIf="step === 'code'" [formGroup]="codeForm" (ngSubmit)="verifyCode()">
+        <h2>Verify it's you</h2>
+        <p class="welcome-text">
+          Enter the 6-digit code we've sent to
+          <b>{{ formattedPhone }}</b>
+        </p>
+        <a (click)="step = 'phone'" class="edit-link">
+          <u>Edit phone number</u>
+        </a>
+
+        <ion-item lines="none" class="input-item">
+          <ion-input
+            #otpInput
+            formControlName="code"
+            inputmode="numeric"
+            maxlength="6"
+            autocomplete="one-time-code"
+            class="otp-input">
+          </ion-input>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="loading || codeForm.invalid"
+          class="btn-gradient">
+          <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+          <span *ngIf="!loading">Verify & Sign In</span>
+        </ion-button>
+
+        <p class="resend-text">
+          Didn't receive code?
+          <a (click)="resend()" *ngIf="resendIn <= 0" class="resend-link">Resend</a>
+          <span *ngIf="resendIn > 0">Resend in {{ resendIn }}s</span>
+        </p>
+      </form>
+
+      <ion-text color="danger" *ngIf="error" class="error-text">{{ error }}</ion-text>
+    </div>
+  </div>
+</ion-content>

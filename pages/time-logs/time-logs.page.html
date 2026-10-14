@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Employee Time Logs</ion-title>
+    <ion-buttons slot="end">
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Clock Actions -->
+  <div class="clock-actions">
+    <ion-button expand="block" color="primary" (click)="openClockCodeModal('clock_in')">
+      <ion-icon slot="start" name="log-in"></ion-icon>
+      Clock In
+    </ion-button>
+    <ion-button expand="block" color="secondary" (click)="openClockCodeModal('clock_out')">
+      <ion-icon slot="start" name="log-out"></ion-icon>
+      Clock Out
+    </ion-button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="lines"></ion-spinner>
+    <p>Loading time logs...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <ion-icon name="warning" color="danger" size="large"></ion-icon>
+    <p>{{ error }}</p>
+    <ion-button fill="outline" (click)="loadTimeLogs()">Retry</ion-button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && timeLogs.length === 0" class="empty-container">
+    <ion-icon name="time-outline" size="large" color="medium"></ion-icon>
+    <h3>No Time Logs Found</h3>
+    <p>No time entries have been recorded yet</p>
+  </div>
+
+  <!-- Data List -->
+  <ion-list *ngIf="!loading && !error && timeLogs.length > 0">
+    <ion-item-sliding *ngFor="let log of timeLogs">
+      <ion-item>
+        <ion-label>
+          <h2>Log #{{ log.employee_time_log_id }}</h2>
+          <p>
+            <ion-icon name="log-in" slot="start"></ion-icon>
+            Clock In: {{ formatDateTime(log.clock_in) }}
+          </p>
+          <p>
+            <ion-icon name="log-out" slot="start"></ion-icon>
+            Clock Out: {{ log.clock_out ? formatDateTime(log.clock_out) : 'Still clocked in' }}
+          </p>
+          <p>
+            <ion-icon name="timer" slot="start"></ion-icon>
+            Duration: {{ getDuration(log.clock_in, log.clock_out) }}
+          </p>
+        </ion-label>
+        <ion-badge [color]="getStatusColor(log.clock_out)" slot="end">
+          {{ formatStatus(log.clock_out) }}
+        </ion-badge>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

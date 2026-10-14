@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        ion-app {
+            background: #f8f9fa;
+        }
+
+        ion-header {
+            --background: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        ion-toolbar {
+            --background: transparent;
+            --color: #2c3e50;
+            --padding-start: 16px;
+            --padding-end: 16px;
+        }
+
+        .toolbar-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo-placeholder {
+            height: 36px;
+            width: 36px;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .logo-placeholder i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #2c3e50;
+            letter-spacing: -0.5px;
+        }
+
+        .vision-text {
+            color: #3498db;
+        }
+
+        ion-content {
+            --background: #f8f9fa;
+            --color: #333;
+            --padding-start: 16px;
+            --padding-end: 16px;
+            --padding-top: 16px;
+            --padding-bottom: 16px;
+        }
+
+        .welcome-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+        }
+
+        .welcome-section h2 {
+            font-size: 1.6rem;
+            margin: 16px 0 8px;
+            color: #2c3e50;
+        }
+
+        .welcome-section p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3498db;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
+        .rules-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .rule-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .rule-content {
+            padding: 16px;
+            flex: 1;
+        }
+
+        .rule-content ul {
+            list-style: none;
+        }
+
+        .rule-content li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            font-size: 0.95rem;
+        }
+
+        .rule-content li:last-child {
+            border-bottom: none;
+        }
+
+        .rule-content li i {
+            color: #3498db;
+            margin-right: 10px;
+            margin-top: 4px;
+            font-size: 0.8rem;
+            min-width: 18px;
+        }
+
+        .rule-card:nth-child(1) .card-header {
+            background: linear-gradient(to right, #3498db, #2980b9);
+        }
+
+        .rule-card:nth-child(2) .card-header {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+        }
+
+        .rule-card:nth-child(3) .card-header {
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
+        }
+
+        .rule-card:nth-child(4) .card-header {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+        }
+
+        .rule-card:nth-child(5) .card-header {
+            background: linear-gradient(to right, #f39c12, #d35400);
+        }
+
+        .rule-card:nth-child(6) .card-header {
+            background: linear-gradient(to right, #1abc9c, #16a085);
+        }
+
+        .page-footer {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-footer::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #1abc9c, #16a085);
+        }
+
+        .page-footer p {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .action-button {
+            margin-top: 16px;
+            --background: linear-gradient(to right, #3498db, #2c3e50);
+            --border-radius: 12px;
+            --padding-top: 16px;
+            --padding-bottom: 16px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .rules-container {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.4rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ionic App Structure -->
+    <ion-app>
+
+
+        <ion-content class="ion-padding">
+            <div class="welcome-section">
+                <h2>Company Rules & Guidelines</h2>
+                <p>Essential principles for maintaining a secure, productive, and respectful work environment</p>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Key Areas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">30+</div>
+                        <div class="stat-label">Guidelines</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Compliance</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-container">
+                <div class="rule-card">
+                    <div class="card-header">
+                        <i class="fas fa-users"></i>
+                        <h3>Professional Conduct</h3>
+                    </div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Treat colleagues with respect at all times</li>
+                            <li><i class="fas fa-check-circle"></i> Maintain professional communication</li>
+                            <li><i class="fas fa-check-circle"></i> Dress appropriately for the workplace</li>
+                            <li><i class="fas fa-check-circle"></i> Avoid disruptive behavior</li>
+                            <li><i class="fas fa-check-circle"></i> Resolve conflicts professionally</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="card-header">
+                        <i class="fas fa-lock"></i>
+                        <h3>Data Security</h3>
+                    </div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Protect confidential information</li>
+                            <li><i class="fas fa-check-circle"></i> Follow security protocols</li>
+                            <li><i class="fas fa-check-circle"></i> Never share login credentials</li>
+                            <li><i class="fas fa-check-circle"></i> Report security concerns</li>
+                            <li><i class="fas fa-check-circle"></i> Secure workstations when away</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="card-header">
+                        <i class="fas fa-clock"></i>
+                        <h3>Attendance</h3>
+                    </div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Arrive on time for work</li>
+                            <li><i class="fas fa-check-circle"></i> Notify manager if late/absent</li>
+                            <li><i class="fas fa-check-circle"></i> Follow time-off procedures</li>
+                            <li><i class="fas fa-check-circle"></i> Limit breaks appropriately</li>
+                            <li><i class="fas fa-check-circle"></i> Accurately record hours</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="card-header">
+                        <i class="fas fa-laptop"></i>
+                        <h3>Technology Use</h3>
+                    </div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Use equipment for business purposes</li>
+                            <li><i class="fas fa-check-circle"></i> Install approved software only</li>
+                            <li><i class="fas fa-check-circle"></i> Limit personal internet use</li>
+                            <li><i class="fas fa-check-circle"></i> Maintain professional communication</li>
+                            <li><i class="fas fa-check-circle"></i> Back up important files</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="card-header">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Health & Safety</h3>
+                    </div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Follow safety procedures</li>
+                            <li><i class="fas fa-check-circle"></i> Report accidents immediately</li>
+                            <li><i class="fas fa-check-circle"></i> Maintain clean workspace</li>
+                            <li><i class="fas fa-check-circle"></i> Use ergonomic best practices</li>
+                            <li><i class="fas fa-check-circle"></i> Complete safety training</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="card-header">
+                        <i class="fas fa-balance-scale"></i>
+                        <h3>Compliance</h3>
+                    </div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Adhere to company policies</li>
+                            <li><i class="fas fa-check-circle"></i> Avoid conflicts of interest</li>
+                            <li><i class="fas fa-check-circle"></i> Never accept inappropriate gifts</li>
+                            <li><i class="fas fa-check-circle"></i> Maintain accurate records</li>
+                            <li><i class="fas fa-check-circle"></i> Report unethical behavior</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-footer">
+                <p>These rules help create a secure, productive, and positive work environment for everyone at Vault Vision.</p>
+                <p>All team members are expected to understand and comply with these guidelines to maintain our company's standards of excellence.</p>
+                <p class="highlight">Last updated: August 14, 2025</p>
+
+
+            </div>
+        </ion-content>
+    </ion-app>
+</body>
+</html>
